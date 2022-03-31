@@ -1,16 +1,23 @@
 package com.jdb.personal.acc.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "users", indexes = {
         @Index(name = "UNIQUE_EMAIL", columnList = "EMAIL", unique = true)
 })
-public class User {
+public class AppUser {
+
+    public AppUser() {}
+
+    public AppUser(Long id) {
+        this.id = id;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +43,10 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Category> categories;
 
     public Date getCreatedAt() {
         return createdAt;
@@ -91,6 +102,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 
     @PrePersist

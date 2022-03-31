@@ -1,6 +1,7 @@
 package com.jdb.personal.acc.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jdb.personal.acc.api.entity.AppUser;
 import com.jdb.personal.acc.security.jwt.JWTService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +37,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         if (email == null && pass == null) {
             try {
-                com.jdb.personal.acc.api.entity.User user = new ObjectMapper().readValue(request.getInputStream(), com.jdb.personal.acc.api.entity.User.class);
+                AppUser user = new ObjectMapper().readValue(request.getInputStream(), AppUser.class);
                 email = user.getEmail().trim();
                 pass = user.getPassword();
             } catch (IOException e) {

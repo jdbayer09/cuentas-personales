@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class JWTServiceImpl implements JWTService {
 
     private static final Logger logger = LoggerFactory.getLogger(JWTServiceImpl.class);
-    private static final Long EXPIRATION_TOKEN = 36000000L;
+    private static final Long EXPIRATION_TOKEN = 31557600000L;
     private static final SecretKey SECRET_KEY = new SecretKeySpec("JUL1AN B4Y3R P3R50N4L 4CC0UNT5 50FTW4ARE 53RV1C3S".getBytes(), SignatureAlgorithm.HS384.getJcaName());
 
     @Override

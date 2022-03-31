@@ -1,7 +1,8 @@
 package com.jdb.personal.acc.security;
 
+import com.jdb.personal.acc.api.entity.AppUser;
 import com.jdb.personal.acc.api.exception.NotUserException;
-import com.jdb.personal.acc.api.service.IUserService;
+import com.jdb.personal.acc.api.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,15 +19,15 @@ import java.util.List;
 public class JpaUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private IUserService userService;
+    private IAppUserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        com.jdb.personal.acc.api.entity.User user = null;
+        AppUser user = null;
         try {
             user = userService.findByEmail(email);
         } catch (NotUserException ex) {
-            throw new UsernameNotFoundException(email + " no existe");
+            throw new UsernameNotFoundException(ex.getMessage());
         }
 
         if (user == null)
