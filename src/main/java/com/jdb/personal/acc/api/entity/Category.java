@@ -2,11 +2,13 @@ package com.jdb.personal.acc.api.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -38,6 +40,10 @@ public class Category implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date created;
+    
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Cycle> cycles;
 
     public Date getCreated() {
         return created;
@@ -87,7 +93,15 @@ public class Category implements Serializable{
         this.id = id;
     }
 
-    @PrePersist
+    public List<Cycle> getCycles() {
+		return cycles;
+	}
+
+	public void setCycles(List<Cycle> cycles) {
+		this.cycles = cycles;
+	}
+
+	@PrePersist
     private void prePersist() {
         this.created = new Date();
     }
