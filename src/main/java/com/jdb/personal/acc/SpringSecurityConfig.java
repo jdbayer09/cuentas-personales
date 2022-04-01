@@ -1,6 +1,5 @@
 package com.jdb.personal.acc;
 
-import com.jdb.personal.acc.security.JpaUserDetailsService;
 import com.jdb.personal.acc.security.filter.JWTAuthenticationFilter;
 import com.jdb.personal.acc.security.filter.JWTAuthorizationFilter;
 import com.jdb.personal.acc.security.jwt.JWTService;
@@ -42,9 +41,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTService jwtService;
 
-    @Autowired
-    private JpaUserDetailsService userDetailsServices;
-/*
+    /*
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder build) throws Exception {
         build.userDetailsService(userDetailsServices).passwordEncoder(passwordEncoder());

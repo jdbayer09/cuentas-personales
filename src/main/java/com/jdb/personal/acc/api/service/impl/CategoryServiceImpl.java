@@ -26,9 +26,7 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     @Transactional(readOnly = true)
     public List<Category> listCategories(Long userId) {
-        return categoryRepository.findAllByUser_Id(userId).stream()
-                .peek(category -> category.setUser(appUserService.clearPassword(category.getUser())))
-                .collect(Collectors.toList());
+        return categoryRepository.findAllByUser_Id(userId);
     }
 
     @Override
@@ -36,23 +34,21 @@ public class CategoryServiceImpl implements ICategoryService {
     public Category findById(Long userId, Long categoryId) throws NotCategoryException {
         Category resp = categoryRepository.findByUser_IdAndId(userId, categoryId);
         if (resp == null || resp.getId() == null || resp.getId().equals(0L)) throw new NotCategoryException("La categoria no existe");
-        resp.setUser(appUserService.clearPassword(resp.getUser()));
         return resp;
     }
 
     @Override
     @Transactional
     public Category create(Long userId, Category category) throws NotUserException {
-        AppUser user = appUserService.clearPassword(appUserService.findById(userId));
+        AppUser user = appUserService.findById(userId);
         Category newCategory = new Category();
         newCategory.setId(null);
         newCategory.setName(category.getName().toUpperCase());
-        newCategory.setUser(new AppUser(user.getId()));
+        newCategory.setUser(user);
         newCategory.setDisabled(false);
         newCategory.setDescription(category.getDescription());
         return categoryRepository.save(newCategory);
     }
-
 
     @Override
     @Transactional
@@ -66,14 +62,16 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
+    @Transactional
     public Category disable(Long userId, Long categoryId) throws NotUserException, NotCategoryException {
         Category newCategory = findById(userId, categoryId);
         if (true) {
             categoryRepository.delete(newCategory);
             return newCategory;
-        } else {
+        } else { /*
             newCategory.setDisabled(true);
-            return categoryRepository.save(newCategory);
+            return categoryRepository.save(newCategory); */
+        	return null;
         }
     }
 }

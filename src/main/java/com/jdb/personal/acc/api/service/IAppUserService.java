@@ -8,6 +8,4 @@ public interface IAppUserService {
     AppUser findByEmail(String email) throws NotUserException;
 
     AppUser findById(Long id) throws NotUserException;
-
-    AppUser clearPassword(AppUser user);
 }

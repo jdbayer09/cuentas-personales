@@ -51,7 +51,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         String token = jwtService.create(authResult);
-        response.addHeader(jwtService.HEADER_STRING, jwtService.TOKEN_PREFIX + token);
+        response.addHeader(JWTService.HEADER_STRING, JWTService.TOKEN_PREFIX + token);
         Map<String, Object> body = new HashMap<>();
         body.put("token", token);
         body.put("login", authResult.getPrincipal());

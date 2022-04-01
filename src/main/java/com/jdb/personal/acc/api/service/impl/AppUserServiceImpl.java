@@ -31,14 +31,7 @@ public class AppUserServiceImpl implements IAppUserService {
         validateUser(resp);
         return resp;
     }
-
-    @Override
-    @Transactional(readOnly = true)
-    public AppUser clearPassword(AppUser user) {
-        user.setPassword("NO-PASSWORD");
-        return user;
-    }
-
+    
     private void validateUser(AppUser user) throws NotUserException{
         if (user == null || user.getId() == null || user.getId().equals(0L)) throw new NotUserException("El usuario no existe");
     }

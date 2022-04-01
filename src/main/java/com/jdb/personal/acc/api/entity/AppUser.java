@@ -4,116 +4,119 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
+
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "users", indexes = {
-        @Index(name = "UNIQUE_EMAIL", columnList = "EMAIL", unique = true)
-})
-public class AppUser {
+@Table(name = "users", indexes = { @Index(name = "UNIQUE_EMAIL", columnList = "EMAIL", unique = true) })
+public class AppUser implements Serializable {
 
-    public AppUser() {}
+	private static final long serialVersionUID = 2704356743950612726L;
 
-    public AppUser(Long id) {
-        this.id = id;
-    }
+	public AppUser() {
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID", nullable = false)
-    private Long id;
+	public AppUser(Long id) {
+		this.id = id;
+	}
 
-    @Column(name = "FIRST_NAME", nullable = false, length = 50)
-    private String firstName;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID", nullable = false)
+	private Long id;
 
-    @Column(name = "SECOND_NAME", length = 50)
-    private String secondName;
+	@Column(name = "FIRST_NAME", nullable = false, length = 50)
+	private String firstName;
 
-    @Column(name = "LAST_NAME", nullable = false, length = 70)
-    private String lastName;
+	@Column(name = "SECOND_NAME", length = 50)
+	private String secondName;
 
-    @Column(name = "EMAIL", nullable = false, length = 100)
-    private String email;
+	@Column(name = "LAST_NAME", nullable = false, length = 70)
+	private String lastName;
 
-    @Column(name = "PASSWORD", nullable = false, length = 150)
-    private String password;
+	@Column(name = "EMAIL", nullable = false, length = 100)
+	private String email;
 
-    @Column(name = "CREATED_AT", nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private Date createdAt;
+	@Column(name = "PASSWORD", nullable = false, length = 150)
+	private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Category> categories;
+	@Column(name = "CREATED_AT", nullable = false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
+	private Date createdAt;
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Category> categories;
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getSecondName() {
-        return secondName;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
+	public String getSecondName() {
+		return secondName;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setSecondName(String secondName) {
+		this.secondName = secondName;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public List<Category> getCategories() {
-        return categories;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+	public List<Category> getCategories() {
+		return categories;
+	}
 
-    @PrePersist
-    private void prePersist() {
-        this.createdAt = new Date();
-    }
+	public void setCategories(List<Category> categories) {
+		this.categories = categories;
+	}
+
+	@PrePersist
+	private void prePersist() {
+		this.createdAt = new Date();
+	}
 }
