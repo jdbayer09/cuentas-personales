@@ -28,6 +28,12 @@ public class Category implements Serializable{
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
+    @Column(name = "ICON", nullable = false, length = 20)
+    private String icon;
+
+    @Column(name = "COLOR", nullable = false, length = 20)
+    private String color;
+
     @JsonBackReference
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", nullable = false)
@@ -101,7 +107,23 @@ public class Category implements Serializable{
 		this.cycles = cycles;
 	}
 
-	@PrePersist
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    @PrePersist
     private void prePersist() {
         this.created = new Date();
     }
