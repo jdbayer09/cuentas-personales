@@ -50,6 +50,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         String[] freePaths = {
+                "/user/register"
         };
         http.cors().configurationSource(corsConfigurationSource()).and().authorizeRequests()
                 .antMatchers(freePaths).permitAll()

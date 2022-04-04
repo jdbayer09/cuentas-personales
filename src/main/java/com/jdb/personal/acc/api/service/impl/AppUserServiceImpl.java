@@ -5,16 +5,21 @@ import com.jdb.personal.acc.api.exception.NotUserException;
 import com.jdb.personal.acc.api.repository.IUserRepository;
 import com.jdb.personal.acc.api.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Locale;
+import java.util.Objects;
 
 @Service
 public class AppUserServiceImpl implements IAppUserService {
 
     @Autowired
     private IUserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passEncoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -31,7 +36,21 @@ public class AppUserServiceImpl implements IAppUserService {
         validateUser(resp);
         return resp;
     }
-    
+
+    @Override
+    @Transactional
+    public AppUser createUser(AppUser user) throws NotUserException {
+        AppUser validateEmail = userRepository.findUserByEmail(user.getEmail());
+        if (validateEmail != null ) throw  new NotUserException("El email ya se encuentra registrado");
+        user.setEmail(user.getEmail().toLowerCase());
+        user.setFirstName(user.getFirstName().toUpperCase());
+        user.setLastName(user.getLastName().toUpperCase());
+        if (user.getSecondName() != null)
+            user.setSecondName(user.getSecondName().toUpperCase());
+        user.setPassword(passEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
     private void validateUser(AppUser user) throws NotUserException{
         if (user == null || user.getId() == null || user.getId().equals(0L)) throw new NotUserException("El usuario no existe");
     }
