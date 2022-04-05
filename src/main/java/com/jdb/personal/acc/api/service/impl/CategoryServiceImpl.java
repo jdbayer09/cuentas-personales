@@ -47,6 +47,8 @@ public class CategoryServiceImpl implements ICategoryService {
         newCategory.setUser(user);
         newCategory.setDisabled(false);
         newCategory.setDescription(category.getDescription());
+        newCategory.setIcon(category.getIcon().toLowerCase());
+        newCategory.setColor(category.getColor().toLowerCase());
         return categoryRepository.save(newCategory);
     }
 
@@ -56,7 +58,9 @@ public class CategoryServiceImpl implements ICategoryService {
         Category newCategory = findById(userId, categoryId);
 
         newCategory.setDescription(category.getDescription());
-        newCategory.setName(category.getName());
+        newCategory.setName(category.getName().toUpperCase());
+        newCategory.setIcon(category.getIcon().toLowerCase());
+        newCategory.setColor(category.getColor().toLowerCase());
 
         return categoryRepository.save(newCategory);
     }
@@ -65,13 +69,12 @@ public class CategoryServiceImpl implements ICategoryService {
     @Transactional
     public Category disable(Long userId, Long categoryId) throws NotUserException, NotCategoryException {
         Category newCategory = findById(userId, categoryId);
-        if (true) {
+        if (newCategory.getCycles() == null || newCategory.getCycles().isEmpty()) {
             categoryRepository.delete(newCategory);
             return newCategory;
-        } else { /*
+        } else { 
             newCategory.setDisabled(true);
-            return categoryRepository.save(newCategory); */
-        	return null;
+            return categoryRepository.save(newCategory); 
         }
     }
 }
