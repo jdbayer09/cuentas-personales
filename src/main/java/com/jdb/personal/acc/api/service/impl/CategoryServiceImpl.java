@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements ICategoryService {
@@ -69,12 +68,14 @@ public class CategoryServiceImpl implements ICategoryService {
     @Transactional
     public Category disable(Long userId, Long categoryId) throws NotUserException, NotCategoryException {
         Category newCategory = findById(userId, categoryId);
+        
+        /*
         if (newCategory.getCycles() == null || newCategory.getCycles().isEmpty()) {
             categoryRepository.delete(newCategory);
             return newCategory;
-        } else { 
+        } else { */
             newCategory.setDisabled(true);
             return categoryRepository.save(newCategory); 
-        }
+        //}
     }
 }

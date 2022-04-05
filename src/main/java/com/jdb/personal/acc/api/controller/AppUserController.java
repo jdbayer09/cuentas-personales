@@ -1,7 +1,6 @@
 package com.jdb.personal.acc.api.controller;
 
 import com.jdb.personal.acc.api.entity.AppUser;
-import com.jdb.personal.acc.api.entity.Category;
 import com.jdb.personal.acc.api.service.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
