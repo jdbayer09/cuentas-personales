@@ -1,14 +1,14 @@
 package com.jdb.personal.acc.api.exception;
 
-public class NotCycleException extends RuntimeException{
+public class NotDeudaException extends RuntimeException{
 
 	private static final long serialVersionUID = -4267026250391046879L;
 
-	public NotCycleException() {
+	public NotDeudaException() {
 		super();
 	}
 
-	public NotCycleException(String message) {
+	public NotDeudaException(String message) {
 		super(message);
 	}
 }
