@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface IDeudaRepository extends JpaRepository<Deuda, Long> {
 
-    @Query("SELECT d FROM Deuda d WHERE d.category.user.id = ?1 ORDER BY d.created DESC")
-    List<Deuda> fetchAllByUserId(Long userId);
+    @Query("SELECT d FROM Deuda d WHERE d.category.user.id = ?1 AND d.oculto = ?2 ORDER BY d.created DESC")
+    List<Deuda> fetchAllByUserId(Long userId, boolean oculto);
 }

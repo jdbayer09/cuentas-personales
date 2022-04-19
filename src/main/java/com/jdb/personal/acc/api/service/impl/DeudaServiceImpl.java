@@ -18,8 +18,8 @@ public class DeudaServiceImpl implements IDeudaService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Deuda> fetchNoPagadasByUserId(Long userId) {
-        List<Deuda> data = deudaRepository.fetchAllByUserId(userId);
+    public List<Deuda> fetchNoPagadasByUserId(Long userId, boolean oculto) {
+        List<Deuda> data = deudaRepository.fetchAllByUserId(userId, oculto);
         if (data == null || data.isEmpty()) return data;
 
         List<Deuda> resp = new ArrayList<>();
@@ -34,8 +34,8 @@ public class DeudaServiceImpl implements IDeudaService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Deuda> fetchPagadasByUserId(Long userId) {
-        List<Deuda> data = deudaRepository.fetchAllByUserId(userId);
+    public List<Deuda> fetchPagadasByUserId(Long userId, boolean oculto) {
+        List<Deuda> data = deudaRepository.fetchAllByUserId(userId, oculto);
         if (data == null || data.isEmpty()) return data;
 
         List<Deuda> resp = new ArrayList<>();
@@ -50,7 +50,7 @@ public class DeudaServiceImpl implements IDeudaService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Deuda> fetchAllByUserId(Long userId) {
-        return deudaRepository.fetchAllByUserId(userId);
+    public List<Deuda> fetchAllByUserId(Long userId, boolean oculto) {
+        return deudaRepository.fetchAllByUserId(userId, oculto);
     }
 }

@@ -1,7 +1,11 @@
 package com.jdb.personal.acc.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "deudas")
@@ -24,11 +28,17 @@ public class Deuda {
     @Column(name = "CUOTAS", nullable = false)
     private Integer cuotas;
 
-    @Column(name = "INTERES")
-    private Float interes;
-
     @Column(name = "CREATED", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    //@JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private Date created;
+
+    @Column(name = "OCULTO", nullable = false)
+    private Boolean oculto = false;
+
+    @OneToMany(mappedBy = "deuda", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Pago> pagos;
 
     public Long getId() {
         return id;
@@ -70,14 +80,6 @@ public class Deuda {
         this.cuotas = cuotas;
     }
 
-    public Float getInteres() {
-        return interes;
-    }
-
-    public void setInteres(Float interes) {
-        this.interes = interes;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -86,6 +88,21 @@ public class Deuda {
         this.created = created;
     }
 
+    public Boolean getOculto() {
+        return oculto;
+    }
+
+    public void setOculto(Boolean oculto) {
+        this.oculto = oculto;
+    }
+
+    public List<Pago> getPagos() {
+        return pagos;
+    }
+
+    public void setPagos(List<Pago> pagos) {
+        this.pagos = pagos;
+    }
 
     @PrePersist
     private void prePersist() {
@@ -95,18 +112,43 @@ public class Deuda {
     /*Variables Visuales */
 
     public boolean getPagada() {
-        return false;
+        for (Pago p: this.pagos) {
+            if (!p.getPagado())
+                return false;
+        }
+        return true;
     }
 
     public Double getDebe() {
-        return 0.0;
+        double debe = 0.0;
+
+        for (Pago p: this.pagos) {
+            if (!p.getPagado())
+                debe += p.getValor();
+        }
+
+        return debe;
     }
 
     public Double getPago() {
-        return 0.0;
+        double pago = 0.0;
+
+        for (Pago p: this.pagos) {
+            if (p.getPagado())
+                pago += p.getValor();
+        }
+
+        return pago;
     }
 
     public Integer getCuotasPagas() {
-        return 0;
+        int cuotas = 0;
+
+        for (Pago p: this.pagos) {
+            if (p.getPagado())
+                cuotas ++;
+        }
+
+        return cuotas;
     }
 }
